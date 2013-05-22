@@ -180,12 +180,13 @@ static void sync_error_callback(DictionaryResult dict_error, AppMessageResult ap
 }
 
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
-	put_state("fail!");
+	// phone disconnected, or app not installed
+	put_state("?");
 }
 
 
 static void app_received_msg(DictionaryIterator* received, void* context) {	
-	// light_enable_interaction();
+	// light_enable_interaction(); // usefull for testing
 }
 
  void app_deinit(AppContextRef c) {
