@@ -58,6 +58,7 @@ void line_layer_update_callback(Layer *me, GContext* ctx) {
 }
 
 void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
+
   (void)t;
   (void)ctx;
 
@@ -107,9 +108,11 @@ void handle_init_app(AppContextRef app_ctx) {
 	lineLayer.update_proc = &line_layer_update_callback;
 	layer_add_child(&window.layer, &lineLayer);
 	
+	
+	// request data refresh on window appear (for example after notification)
 	WindowHandlers handlers = { .appear = &requestPhoneData };
 	window_set_window_handlers(&window, handlers);
-	
+	// init AppSync subsystem
 	init_sync();	
 	
 	handle_second_tick(app_ctx, NULL);
@@ -121,15 +124,14 @@ void pbl_main(void *params) {
     .init_handler = &handle_init_app,
     .tick_info = {
       .tick_handler = &handle_second_tick,
-      .tick_units = SECOND_UNIT 
+      .tick_units = SECOND_UNIT  // for this watchface it would be enaought to use MINUTE tick, seconds are used for easier modifciations
 	},
 
 	.deinit_handler = &app_deinit,
-	
 	.messaging_info = {
       .buffer_sizes = {
         .inbound = 32, 
-        .outbound = 16 // TODO calc size
+        .outbound = 16
 	  },
 	}
    };

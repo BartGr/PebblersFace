@@ -2,6 +2,8 @@
 #include "pebble_app.h"
 #include "sync.h"
 
+
+// Convert intiger to displayable string 
 static void intToString(int num, char* res) {
 	if(num == 0){
 		res[0] = '0';
@@ -24,10 +26,11 @@ static void intToString(int num, char* res) {
 	}
 }
 
+// render passed text on label
 static void put_state(char* state){
 	text_layer_set_text(&info_layer, state);
 }
-
+// updates phone  data info
 static void update_counters()
 {
 	static char* state = "00/00";
@@ -63,11 +66,11 @@ static void update_counters()
 	put_state(state);		
 }
 
- 
+// proceed result 
 static void set_reason(int reason) {
 	switch(reason){
 		case APP_MSG_NOT_CONNECTED: 
-			// phone is disconnected	
+			// phone is disconnected (could be visualized by some icon too...)	
 			put_state("?");
 			break;
 /*
@@ -96,24 +99,25 @@ static void set_reason(int reason) {
 */
      }
 }	
-	
+
+// some data changed 
 static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 	(void) old_tuple;
 	switch (key) {
 	  case TUPLE_MISSED_CALLS:
 		s_data.missedCalls = new_tuple->value->uint8;
+		// TODO Add code for rendering proper icon here 
 		break;
 	  case TUPLE_UNREAD_SMS:
 		s_data.unreadSms = new_tuple->value->uint8;
+		// TODO Add code for rendering proper icon here 
 		break;		
-	  case TUPLE_STATE:		
-		break;
   }
 	// draw only if value changed
 	if(new_tuple->value!=old_tuple->value) update_counters();
 }	
 
-
+// Init AppSync subsystem
 void init_sync() {	
 	Tuplet initial_values[] = {
 		      	TupletCString(TUPLE_STATE, "       "), 	  
@@ -132,10 +136,11 @@ void init_sync() {
 		 NULL);	
 	
 	register_callbacks();
+	// get current data from phone
 	requestPhoneData(); 
 }
 
-
+// request phone to send new data
 void requestPhoneData(){
   Tuplet value = TupletInteger(REQUEST_DATA_KEY, REQUEST_DATA);
   DictionaryIterator *iter;

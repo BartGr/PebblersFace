@@ -1,4 +1,4 @@
-#define STATE_LENGTH 6
+#define STATE_LENGTH 6 // size of label with indicators
 #define SYNC_BUFFER_SIZE 32
 	
 enum {
@@ -15,7 +15,10 @@ enum {
 
 enum { REQUEST_DATA = 0x0};// TUPLE_INTEGER
 
-TextLayer info_layer;
+
+TextLayer info_layer; // label for displaying indicators, would be nice to replace with some icons
+
+// sync data
 
 static struct PhoneStateData {
   uint8_t missedCalls;
@@ -24,9 +27,10 @@ static struct PhoneStateData {
   uint8_t sync_buffer[SYNC_BUFFER_SIZE]; 
 } s_data;
 
-
 static bool callbacks_registered;
 static AppMessageCallbacksNode app_callbacks;
+
+// methods 
 
 void init_sync();
 void app_deinit(AppContextRef c);
