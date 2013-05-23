@@ -12,6 +12,17 @@ Feel free to modify it any way You want - Pebble deserves some nicer indicators 
 You can import it directly to awesome Katharine's  CloudPebble IDE (https://cloudpebble.net/ide/) via github: https://github.com/BartGr/PebblersFace.git and play with it.
 
 
+Files
+======
+
+* sync.c/sync.h - all sync-related code/definitions
+* pebbler.c - regular watchface code and sync handlers initialization.
+
+
+Code should be quite self explanatory, so it would should be easy to port sync engine to other watchfaces (You can set any app UUID in Pebbler config) 
+
+
+
 Change Log
 =====
 
